@@ -1,6 +1,6 @@
 import java.rmi.RemoteException;
 
-public class HelloImpl implements HelloIntf, java.io.Serializable {
+public class HelloImpl implements HelloIntf, Hello2Intf, java.io.Serializable {
     @Override
     public String getHello() throws RemoteException {
         return "Server is sending hello!!";

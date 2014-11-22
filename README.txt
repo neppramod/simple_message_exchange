@@ -17,7 +17,7 @@ $ rmid
 
 $ java -Djava.security.policy=all_rmi_lib/jsk-all.policy -jar all_rmi_lib/start.jar all_rmi_lib/start-transient-reggie.config
 
-4. Server/Client (from inside src)
+4. Server/Client (from injsk-all.policyside src)
 
 $ java -Djava.rmi.server.codebase=http://localhost:8080/simple_message-dl.jar -Djava.security.policy=../all_rmi_lib/jsk-all.policy HelloServer
 

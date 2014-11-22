@@ -17,6 +17,7 @@ public class HelloServer implements  DiscoveryListener, LeaseListener{
     protected LeaseRenewalManager leaseManager = new LeaseRenewalManager();
     protected ServiceID serviceID = null;
     protected HelloIntf helloIntf = null;
+    protected Hello2Intf hello2Intf = null;
 
     public static void main(String[] args) {
         HelloServer s = new HelloServer();
@@ -34,6 +35,7 @@ public class HelloServer implements  DiscoveryListener, LeaseListener{
 
     public HelloServer() {
         helloIntf = new HelloImpl();
+        hello2Intf = new HelloImpl();
 
         System.setSecurityManager(new RMISecurityManager());
 
@@ -50,17 +52,19 @@ public class HelloServer implements  DiscoveryListener, LeaseListener{
 
     @Override
     public void discovered(DiscoveryEvent discoveryEvent) {
-ServiceRegistrar[] registrars = discoveryEvent.getRegistrars();
+        ServiceRegistrar[] registrars = discoveryEvent.getRegistrars();
 
         for (int n = 0; n < registrars.length; n++) {
             ServiceRegistrar registrar = registrars[n];
 
             // serviceID could be null, don't worry about that
             ServiceItem item = new ServiceItem(serviceID, helloIntf, null);
+            ServiceItem item2 = new ServiceItem(serviceID, hello2Intf, null);
             ServiceRegistration reg = null;
 
             try {
                 reg = registrar.register(item, Lease.FOREVER);
+                reg = registrar.register(item2, Lease.FOREVER);
             } catch(RemoteException e) {
                 System.out.println("Register exception " + e.toString());
                 continue;

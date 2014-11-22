@@ -36,7 +36,8 @@ public class HelloClient implements DiscoveryListener{
     public void discovered(DiscoveryEvent discoveryEvent) {
         ServiceRegistrar[] registrars = discoveryEvent.getRegistrars();
         HelloIntf helloIntf = null;
-        Class[] classes = new Class[] {HelloIntf.class};
+        Hello2Intf hello2Intf = null;
+        Class[] classes = new Class[] {HelloIntf.class, Hello2Intf.class};
         ServiceTemplate template = new ServiceTemplate(null, classes, null);
 
         for (int n = 0; n < registrars.length; n++) {
@@ -45,6 +46,7 @@ public class HelloClient implements DiscoveryListener{
 
             try {
                 helloIntf = (HelloIntf) registrar.lookup(template);
+                hello2Intf = (Hello2Intf) registrar.lookup(template);
             } catch (RemoteException e) {
                 System.out.println("HelloIntf null");
                 continue;
@@ -53,7 +55,9 @@ public class HelloClient implements DiscoveryListener{
             // Use helloIntf object we got from server
             try {
                 System.out.println("Client: From server: " + helloIntf.getHello());
+                System.out.println("Client 2: From server: " + hello2Intf.getHello());
                 helloIntf.setHello("I am client, saying hi to server");
+                hello2Intf.setHello("I am client 2, saying hi to server");
             } catch (RemoteException e) {
                 e.printStackTrace();
                 continue;
